@@ -1,0 +1,121 @@
+<odoo>
+        <act_window id="custom_attendance_report" name="Attendance Report" res_model="evl.attendance" view_mode="tree,form,pivot,graph,calendar" />
+        <menuitem id="attendnce_menu" name = "Attendance Report" action = "custom_attendance_report" parent="hr_attendance.menu_hr_attendance_root" sequence="20" />
+
+
+        <!-- <record id="EVL_attendance_view_filter" model="ir.ui.view">
+                <field name="name">EVL_attendance_view_filter</field>
+                <field name="model">evl.attendance</field>
+                <field name="arch" type="xml">
+                        <search string="Hr Attendance Search">
+                                <field name="employee_id"/>
+                                <field name="department_id"/>
+                                <filter string="My Attendances" name="myattendances" domain="[('employee_id.user_id.id', '=', uid)]" />
+                                <separator/>
+                                <filter name="check_in_filter" string="Check In Date" date="check_in"/>
+                                <filter name="check_out_filter" string="Check Out Date" date="check_out"/>
+
+                                <group expand="0" string="Group By">
+                                        <filter name="employee" string="Employee" context="{'group_by':'employee_id'}"/>
+                                        <separator/>
+                                        <filter name="groupby_name" string="Check In Date" context="{'group_by': 'check_in'}"/>
+                                        <filter name="groupby_check_out" string="Check Out Date" context="{'group_by': 'check_out'}"/>
+                                </group>
+                        </search>
+                </field>
+        </record> -->
+
+
+        <record id="EVL_attendance_form" model="ir.ui.view">
+                <field name="name">Attendance Form</field>
+                <field name="model">evl.attendance</field>
+                <field name="arch" type="xml">
+                        <form>
+                                <sheet>
+                                        <group>
+                                                <field name="employee_id"/>
+                                                <field name="check_in"/>
+                                                <field name="check_out"/>
+                                        </group>
+                                </sheet>
+                        </form>
+                </field>
+        </record>
+
+        <record id="EVL_attendance_calender" model="ir.ui.view">
+                <field name="name">cus_hr.attendance.calender</field>
+                <field name="model">evl.attendance</field>
+                <field name="arch" type="xml">
+                        <calendar string="Attendance" date_start="check_in" mode="month" color = 'bool_late' >
+                                <field name="employee_id"/>
+                                <field name="late_time_daily" string="Late"/>
+                                <!-- <field name="early_leave_time"/> -->
+                        </calendar>
+                </field>
+        </record>
+
+        <record id="EVL_attendance_view_pivot" model="ir.ui.view">
+                <field name="name">cus_hr.attendance.pivot</field>
+                <field name="model">evl.attendance</field>
+                <field name="arch" type="xml">
+                        <pivot string="Attendance">
+                                <field name="employee_id" type="row"/>
+                                <!-- <field name="check_in" type="col"/> -->
+                                <field name="late_time_daily" type="measure"/>
+                                <field name="early_leave_time" type="measure"/>
+
+                        </pivot>
+                </field>
+        </record>
+
+
+        <record id="EVL_attendance_view_graph" model="ir.ui.view">
+                <field name="name">cus_hr.attendance.graph</field>
+                <field name="model">evl.attendance</field>
+                <field name="arch" type="xml">
+                        <graph string="Attendance">
+                                <field name="employee_id"/>
+                                <field name="check_in"/>
+                                <field name="late_time_daily"/>
+                        </graph>
+                </field>
+        </record>
+
+
+        <record id="EVL_attendance_tree" model="ir.ui.view">
+                <field name="name">Attendance Report</field>
+                <field name="model">evl.attendance</field>
+                <field name="arch" type="xml">
+                        <!-- <tree create="false"> -->
+                        <tree>
+                                <field name="employee_id"/>
+                                <field name="check_in"/>
+                                <field name="check_out"/>
+                                <!-- <field name="source"/> -->
+                                <field name="validity"/>
+                                <field name="late_time_daily" string='Late By' widget="float_time" />
+                                <field name="early_leave_time" widget="float_time"/>
+
+                        </tree>
+                </field>
+        </record>
+
+
+
+        <record id="hr_attendance_list_inherit" model="ir.ui.view">
+                <field name="name">Source for attendance</field>
+                <field name="model">hr.attendance</field>
+                <field name="inherit_id" ref="hr_attendance.view_attendance_tree" />
+                <field name="arch" type="xml">
+
+                        <xpath expr="//field[@name='employee_id']" position="after">
+                                <field name="source"/>
+
+                        </xpath>
+
+                </field>
+        </record>
+
+
+
+</odoo>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_device_config_form" model="ir.ui.view">
+        <field name="name">device.config.form</field>
+        <field name="model">device.config</field>
+        <field name="arch" type="xml">
+            <form string="Biometric Device">
+                <header>
+                    <button name="clear_attendance" type="object" string="Clear Data" class="oe_highlight"
+                                icon="fa-remove " confirm="Are you sure you want to do this?"/>
+                    <button name="download_attendance" type="object" string="Download Data" class="oe_highlight"
+                            icon="fa-download " confirm="Are you sure you want to do this?" />
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="dev_ip" />
+                        <h1>
+                            <field name="dev_ip" placeholder="Machine IP"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="port_no"/>
+                            <field name="address_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="username"/>
+                        </group>
+                        <group>
+                            <field name="password" password="True" />
+                        </group>
+                    </group>                    
+                </sheet>
+            </form>
+            
+        </field>
+    </record>
+
+    <record id="view_device_config_tree" model="ir.ui.view">
+        <field name="name">device.config.tree</field>
+        <field name="model">device.config</field>
+        <field name="arch" type="xml">
+            <tree string="Biometric Machine">
+                <field name="dev_ip"/>
+                <field name="port_no"/>
+                <field name="address_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="location"/>
+                <field name="username"/>
+                <field name="password"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="device_config_menu_action" model="ir.actions.act_window">
+        <field name="name">Device Configuration</field>
+        <field name="res_model">device.config</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- <record model="ir.cron" id="device_evl_attendance">
+        <field name="name">Device Evl Attendance</field>
+        <field name="active" eval="True" />
+        <field name="model_id" ref="model_device_config"/>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">model.fp_device_fetch_data()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field> -->
+        <!-- <field name="doall" eval="False"/> -->         
+        <!--<field name="nextcall" >2016-12-31 23:59:59</field>-->
+        <!--<field name="priority" eval="5" />-->
+        <!-- <field name="args" eval="'()'"/> -->
+    <!-- </record> -->
+
+
+    <menuitem id="evl_attendance_sub_menu" parent="hr_attendance.menu_hr_attendance_manage_attendances"  name="Device Configuration" action="device_config_menu_action" sequence="10"/>
+<!-- 
+      <menuitem id="menu_hr_attendance_view_attendances" name="Attendances" parent="menu_hr_attendance_manage_attendances" sequence="10" groups="hr_attendance.group_hr_attendance_user" action="hr_attendance_action"/> -->
+
+
+</odoo>
